@@ -1,9 +1,12 @@
+import cors from 'cors'
 import express, { Request, Response } from 'express'
 import router from './routes/bloodTestRoutes'
 
 const app = express()
 const PORT = 5000
 
+// Enable CORS for browser requests
+app.use(cors())
 app.use(express.json())
 
 app.get('/', (req: Request, res: Response) => {
