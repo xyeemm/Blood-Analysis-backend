@@ -48,7 +48,7 @@ export const checkBloodTestNormal = async (req: Request, res: Response): Promise
         if (!range) {
             res.status(404).json({
                 success: false,
-                message: `Normal range for '${testName}' not found in database`,
+                message: `Normal range for '${testName}' not found in database, please check the test name and try again.`,
             });
             return;
         }
