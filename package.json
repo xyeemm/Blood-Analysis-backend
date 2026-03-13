@@ -1,0 +1,24 @@
+{
+	"name": "blood-analysis-backend",
+	"version": "1.0.0",
+	"description": "",
+	"main": "index.js",
+	"scripts": {
+		"test": "echo \"Error: no test specified\" && exit 1",
+		"start": "node dist/app.js",
+		"build": "tsc",
+		"watch": "tsc -w",
+		"dev": "nodemon dist/app.js"
+	},
+	"keywords": [],
+	"author": "",
+	"license": "ISC",
+	"type": "commonjs",
+	"devDependencies": {
+		"@types/express": "^5.0.6",
+		"typescript": "^5.9.3"
+	},
+	"dependencies": {
+		"express": "^5.2.1"
+	}
+}
