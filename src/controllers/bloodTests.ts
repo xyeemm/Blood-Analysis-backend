@@ -75,6 +75,7 @@ export const checkBloodTestNormal = async (req: Request, res: Response): Promise
         res.status(200).json({
             success: true,
             data: {
+                checkedAt: new Date().toISOString(),
                 testName,
                 value,
                 unit,

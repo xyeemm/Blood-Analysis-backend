@@ -58,6 +58,7 @@ const checkBloodTestNormal = async (req, res) => {
         res.status(200).json({
             success: true,
             data: {
+                checkedAt: new Date().toISOString(),
                 testName,
                 value,
                 unit,
