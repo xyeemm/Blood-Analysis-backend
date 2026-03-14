@@ -34,62 +34,87 @@ export const checkBloodTestNormal = async (req: Request, res: Response): Promise
     try {
         const { testName, value, unit }: BloodTestRequest = req.body;
 
-        if (!testName || value === undefined || !unit) {
+        const tests: BloodTestRequest[] = Array.isArray(req.body) ? req.body : [req.body];
+
+        if (tests.length === 0) {
+            res.status(400).json({
+            success: false,
+            message: 'Please provide at least one blood test',
+            });
+            return;
+        }
+
+        for (const test of tests) {
+            if (!test.testName || test.value === undefined || !test.unit) {
             res.status(400).json({
                 success: false,
-                message: 'Please provide testName, value, and unit',
+                message: 'Each test must have testName, value, and unit',
             });
             return;
+            }
         }
 
-        const normalizedTestName = testName.toLowerCase().trim();
-        const range = normalRanges[normalizedTestName];
+        const results = tests.map(({ testName, value, unit }) => {
+            const normalizedTestName = testName.toLowerCase().trim();
+            const range = normalRanges[normalizedTestName];
 
-        if (!range) {
-            res.status(404).json({
-                success: false,
-                message: `Normal range for '${testName}' not found in database, please check the test name and try again.`,
-            });
-            return;
-        }
-
-        if (range.unit.toLowerCase() !== unit.toLowerCase()) {
-            res.status(400).json({
-                success: false,
-                message: `Unit mismatch. Expected '${range.unit}', but received '${unit}'`,
-            });
-            return;
-        }
-
-        const isNormal = value >= range.min && value <= range.max;
-        let status: 'normal' | 'low' | 'high';
-
-        if (value < range.min) {
-            status = 'low';
-        } else if (value > range.max) {
-            status = 'high';
-        } else {
-            status = 'normal';
-        }
-
-        res.status(200).json({
-            success: true,
-            data: {
-                checkedAt: new Date().toISOString(),
+            if (!range) {
+            return {
                 testName,
                 value,
                 unit,
-                isNormal,
-                status,
-                normalRange: {
-                    min: range.min,
-                    max: range.max,
-                },
-                message: isNormal
-                    ? `Your ${testName} level is within normal range.`
-                    : `Your ${testName} level is ${status}. Normal range is ${range.min}-${range.max} ${range.unit}.`,
+                success: false,
+                message: `Normal range for '${testName}' not found in database`,
+            };
+            }
+
+            if (range.unit.toLowerCase() !== unit.toLowerCase()) {
+            return {
+                testName,
+                value,
+                unit,
+                success: false,
+                message: `Unit mismatch. Expected '${range.unit}', but received '${unit}'`,
+            };
+            }
+
+            const isNormal = value >= range.min && value <= range.max;
+            let status: 'normal' | 'low' | 'high';
+
+            if (value < range.min) {
+            status = 'low';
+            } else if (value > range.max) {
+            status = 'high';
+            } else {
+            status = 'normal';
+            }
+
+            return {
+            testName,
+            value,
+            unit,
+            success: true,
+            isNormal,
+            status,
+            normalRange: {
+                min: range.min,
+                max: range.max,
             },
+            message: isNormal
+                ? `Your ${testName} level is within normal range.`
+                : `Your ${testName} level is ${status}. Normal range is ${range.min}-${range.max} ${range.unit}.`,
+            };
         });
+
+        res.status(200).json({
+            success: true,
+            checkedAt: new Date().toISOString(),
+            data: results.length === 1 ? results[0] : results,
+        });
+        return;
+
+        
+
     } catch (error) {
         res.status(500).json({
             success: false,
