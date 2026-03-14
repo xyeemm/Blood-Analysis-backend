@@ -20,7 +20,6 @@ const normalRanges = {
 };
 const checkBloodTestNormal = async (req, res) => {
     try {
-        const { testName, value, unit } = req.body;
         const tests = Array.isArray(req.body) ? req.body : [req.body];
         if (tests.length === 0) {
             res.status(400).json({
@@ -71,10 +70,10 @@ const checkBloodTestNormal = async (req, res) => {
                 status = 'normal';
             }
             return {
+                success: true,
                 testName,
                 value,
                 unit,
-                success: true,
                 isNormal,
                 status,
                 normalRange: {

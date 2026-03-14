@@ -32,7 +32,6 @@ const normalRanges: Record<string, NormalRange> = {
 
 export const checkBloodTestNormal = async (req: Request, res: Response): Promise<void> => {
     try {
-        const { testName, value, unit }: BloodTestRequest = req.body;
 
         const tests: BloodTestRequest[] = Array.isArray(req.body) ? req.body : [req.body];
 
@@ -90,10 +89,10 @@ export const checkBloodTestNormal = async (req: Request, res: Response): Promise
             }
 
             return {
+            success: true,
             testName,
             value,
             unit,
-            success: true,
             isNormal,
             status,
             normalRange: {
