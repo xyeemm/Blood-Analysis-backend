@@ -47,19 +47,20 @@ const checkBloodTestNormal = async (req, res) => {
             if (!range)
                 return {
                     testName,
-                    value,
+                    value: Number(value),
                     unit,
                     success: false,
                     message: 'Range not found',
                 };
-            const status = value < range.min ? 'low' : value > range.max ? 'high' : 'normal';
+            const numericValue = Number(value);
+            const status = numericValue < range.min ? 'low' : numericValue > range.max ? 'high' : 'normal';
             return {
                 testName,
-                value,
+                value: numericValue,
                 unit,
                 status,
                 isNormal: status === 'normal',
-                range: `${range.min}-${range.max} ${range.unit}`,
+                normalRange: `${range.min}-${range.max} ${range.unit}`,
             };
         });
         // --- Gemini AI Integration ---
