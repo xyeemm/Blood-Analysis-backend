@@ -24,21 +24,21 @@ interface NormalRange {
 }
 
 const normalRanges: Record<string, NormalRange> = {
-	hemoglobin: { min: 12.0, max: 17.5, unit: 'g/dL' },
-	glucose: { min: 70, max: 100, unit: 'mg/dL' },
-	cholesterol: { min: 0, max: 200, unit: 'mg/dL' },
+	hemoglobin: { min: 12.0, max: 17.5, unit: 'g/dL' }, // Combined range
+	glucose: { min: 70, max: 100, unit: 'mg/dL' }, // Fasting range
+	cholesterol: { min: 125, max: 200, unit: 'mg/dL' }, // Min 0 is okay, but 125+ is typical for adults
 	triglycerides: { min: 0, max: 150, unit: 'mg/dL' },
-	hdl: { min: 40, max: 60, unit: 'mg/dL' },
+	hdl: { min: 40, max: 60, unit: 'mg/dL' }, // 60+ is considered "optimal"
 	ldl: { min: 0, max: 100, unit: 'mg/dL' },
-	creatinine: { min: 0.6, max: 1.2, unit: 'mg/dL' },
-	urea: { min: 7, max: 20, unit: 'mg/dL' },
-	sodium: { min: 136, max: 145, unit: 'mEq/L' },
-	potassium: { min: 3.5, max: 5.0, unit: 'mEq/L' },
+	creatinine: { min: 0.6, max: 1.3, unit: 'mg/dL' }, // Slightly higher max (1.3) is common
+	urea: { min: 7, max: 20, unit: 'mg/dL' }, // Also known as BUN
+	sodium: { min: 135, max: 145, unit: 'mEq/L' }, // 135 is the standard floor
+	potassium: { min: 3.5, max: 5.1, unit: 'mEq/L' },
 	calcium: { min: 8.5, max: 10.5, unit: 'mg/dL' },
 	wbc: { min: 4500, max: 11000, unit: 'cells/mcL' },
-	rbc: { min: 4.5, max: 5.5, unit: 'million cells/mcL' },
-	platelets: { min: 150000, max: 400000, unit: 'cells/mcL' },
-	hematocrit: { min: 36, max: 50, unit: '%' },
+	rbc: { min: 4.2, max: 5.9, unit: 'million cells/mcL' }, // Widened for gender inclusivity
+	platelets: { min: 150000, max: 450000, unit: 'cells/mcL' }, // 450k is a common upper limit
+	hematocrit: { min: 36, max: 50, unit: '%' }, // Simplified unit to percentage
 }
 
 export const checkBloodTestNormal = async (
@@ -74,7 +74,11 @@ export const checkBloodTestNormal = async (
 
 			const numericValue = Number(value)
 			const status =
-				numericValue < range.min ? 'low' : numericValue > range.max ? 'high' : 'normal'
+				numericValue < range.min
+					? 'low'
+					: numericValue > range.max
+						? 'high'
+						: 'normal'
 			return {
 				testName,
 				value: numericValue,
