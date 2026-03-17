@@ -1,0 +1,17 @@
+# Dependency directories
+node_modules/
+
+# Build output
+dist/
+build/
+
+# Environment variables (CRITICAL)
+.env
+.env.*
+
+# Logs
+*.log
+npm-debug.log*
+
+# Editor settings
+.vscode/
