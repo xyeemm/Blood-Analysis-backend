@@ -6,8 +6,9 @@ Object.defineProperty(exports, "__esModule", { value: true });
 const cors_1 = __importDefault(require("cors"));
 const express_1 = __importDefault(require("express"));
 const bloodTestRoutes_1 = __importDefault(require("./routes/bloodTestRoutes"));
+const env_1 = require("./config/env");
 const app = (0, express_1.default)();
-const PORT = 5000;
+const PORT = env_1.config.PORT;
 // Enable CORS for browser requests
 app.use((0, cors_1.default)());
 app.use(express_1.default.json());

@@ -2,9 +2,10 @@
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.checkBloodTestNormal = void 0;
 const generative_ai_1 = require("@google/generative-ai");
+const env_1 = require("../config/env");
 // 1. Initialize Gemini SDK
 // Use process.env.GEMINI_API_KEY in production!
-const genAI = new generative_ai_1.GoogleGenerativeAI('AIzaSyBUp6Vf9HMLjmgD99W0f0OxF4f7r0u0jn8');
+const genAI = new generative_ai_1.GoogleGenerativeAI(env_1.config.GEMINI_API_KEY);
 const model = genAI.getGenerativeModel({
     model: 'gemini-2.5-flash-lite',
     generationConfig: {
