@@ -12,7 +12,7 @@ app.use(cors())
 app.use(express.json())
 
 app.get('/', (req: Request, res: Response) => {
-	res.send('Server is running with Node + TypeScript 🚀')
+	res.send('Server is running with Node + TypeScript checking 🚀')
 })
 app.use('/api', router)
 

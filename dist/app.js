@@ -13,7 +13,7 @@ const PORT = env_1.config.PORT;
 app.use((0, cors_1.default)());
 app.use(express_1.default.json());
 app.get('/', (req, res) => {
-    res.send('Server is running with Node + TypeScript 🚀');
+    res.send('Server is running with Node + TypeScript checking 🚀');
 });
 app.use('/api', bloodTestRoutes_1.default);
 app.listen(PORT, () => {
