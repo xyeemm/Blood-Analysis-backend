@@ -75,7 +75,7 @@ const checkBloodTestNormal = async (req, res) => {
 
             Return a JSON object with this exact structure:
             {
-              "summary": "A 2-sentence overview of health status.",
+              "summary": "A 2-5 sentence overview of health status.",
               "suggestions": ["suggestion 1", "suggestion 2", "suggestion 3"]
             }
         `;
