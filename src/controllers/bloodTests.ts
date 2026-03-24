@@ -91,13 +91,13 @@ export const checkBloodTestNormal = async (
 
 		// --- Gemini AI Integration ---
 		const prompt = `
-            Analyze these blood test results as a medical data analyst:
+            Analyze these blood test results as a medical data analyst also suggest some treatment options from lifestyle changes, diet recomendations and medication if you are sure enough:
             ${JSON.stringify(results)}
 
             Return a JSON object with this exact structure:
             {
-              "summary": "A 2-5 sentence overview of health status.",
-              "suggestions": ["suggestion 1", "suggestion 2", "suggestion 3"]
+              "summary": "A 5-7 sentence overview of health status and suggest lifestyle changes and diet recommendations like a doctor.",
+              "suggestions": ["suggestion 1", "suggestion 2", "suggestion 3", "suggestion 4", "suggestion 5"]
             }
         `
 
